@@ -1,1 +1,21 @@
+Requirements for filehandler:
+1. Exit gracefully if a file is not found.
+2. Exit gracefully if a file is not deciphered.
+3. Files are not directly accessed outside of the filehandler.
+4. Every method has at least one test.  
+5. Return a file's content when a request is recieved. 
 
+Rough Plan:
+
+Only arguement should be file name.
+If (insert file name) then 
+return (file contents)
+else 
+return (file not found!)
+
+Also have it so that when no argument is given it lists all available files. 
+
+Tests that could be run:
+1. Test a file name that doesn't exist.
+2. Test each file name that does exist.
+3. Test no argument given. 
