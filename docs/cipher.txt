@@ -1,1 +1,119 @@
 
+1. OVERVIEW
+---------------------------------------------------------
+Responsibilities:
+1. Loading cipher keys from the 'ciphers/' directory.
+2. Validating that the key files are formatted correctly (2 lines, matching length).
+3. Converting ciphered text strings back into plain text using the loaded key.
+
+
+
+
+2. UML CLASS DIAGRAM
+---------------------------------------------------------
++-------------------------------------+
+|           CipherDecrypter           |
++-------------------------------------+
+| - keyMap: Map<Character, Character> |
+| - KEY_DIRECTORY: String = "ciphers/"|
++-------------------------------------+
+| + loadKey(filename: String): Boolean|
+| + decipher(text: String): String    |
+| - validateKey(plain: String,        |
+|               cipher: String): Bool |
++-------------------------------------+
+
+
+3. PSEUDOCODE
+---------------------------------------------------------
+
+
+METHOD: loadKey(filename)
+   INPUT: filename (String)
+   OUTPUT: Boolean (Success/Fail)
+
+
+   TRY:
+       File = OPEN KEY_DIRECTORY + filename
+       String plainLine = READ line 1 (The actual letters)
+       String cipherLine = READ line 2 (The cipher match)
+   CATCH Error:
+       RETURN False (File not found)
+
+
+   IF validateKey(plainLine, cipherLine) IS False:
+       RETURN False
+
+
+   CLEAR keyMap
+   FOR index i FROM 0 TO length of plainLine:
+       Char p = plainLine[i]
+       Char c = cipherLine[i]
+       // Map the Cipher character (source) TO the Plain character (target)
+       keyMap.put(c, p)
+
+
+   RETURN True
+
+
+METHOD: validateKey(plainLine, cipherLine)
+   INPUT: plainLine (String), cipherLine (String)
+   OUTPUT: Boolean
+
+
+   IF plainLine is NULL OR cipherLine is NULL:
+       RETURN False
+   IF length of plainLine DOES NOT EQUAL length of cipherLine:
+       RETURN False
+   RETURN True
+
+
+METHOD: decipher(encryptedString)
+   INPUT: encryptedString (String)
+   OUTPUT: String (Decoded text)
+
+
+   StringBuilder result = ""
+
+
+   FOR EACH char c IN encryptedString:
+       IF keyMap contains key c:
+           APPEND keyMap value for c TO result
+       ELSE:
+           // If char is not in the map (e.g., spaces/punctuation), keep it as is
+           APPEND c TO result
+
+
+   RETURN result.toString()
+
+
+4. UNIT TEST PLAN
+---------------------------------------------------------
+
+
+TEST-01: validateKey_HappyPath
+  - Input: plainLine="ABC", cipherLine="BCD"
+  - Expected: Returns True
+
+
+TEST-02: validateKey_LengthMismatch
+  - Input: plainLine="ABC", cipherLine="BC"
+  - Expected: Returns False
+
+
+TEST-03: decipher_Standard
+  - Setup: Load key (Plain="ABC", Cipher="BCD")
+  - Input: "BCD"
+  - Expected: Returns "ABC"
+
+
+TEST-04: decipher_SpecialChars
+  - Setup: Load key (Plain="ABC", Cipher="BCD")
+  - Input: "B C D!"
+  - Expected: Returns "A B C!" (Preserves spaces and symbols)
+
+
+TEST-05: loadKey_FileNotFound
+  - Input: "ghost_file.txt"
+  - Expected: Returns False / Handles exception
+
