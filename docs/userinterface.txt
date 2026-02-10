@@ -1,1 +1,25 @@
+Arnav Jadhav, dbm8fg
+
+Running the program
+- Run the program using: java topsecret
+- When no arguments are provided, the program lists all available files.
+- Files are displayed with two-digit numbers such as 01, 02, 03, and so on.
+
+Viewing a file
+- To view a file, run: java topsecret <NN>
+- <NN> must be a two-digit number (for example, 01 or 10).
+- The contents of the selected file are displayed, and program exits.
+
+Optional key
+- An optional key may be provided by running: java topsecret <NN> <KEY>
+- When a key is provided, the program uses it instead of the default key.
+
+Help
+- Help information can be shown by running: java topsecret --help or java topsecret -h
+- The program displays usage instructions and exits.
+
+Error Handling
+- If invalid arguments are provided, the program prints an error message.
+- Usage instructions are printed after the error message.
+- The program exits without running.
 
