@@ -1,6 +1,23 @@
-Eliza Tan tpj4cd
+Program control: connecting the command line to the file handler (request file contents and return readable text)
+- no args: provide list of files available (team member B) and corresponding number
+    ex: input ->  java topsecret
+        output -> 01 filea.txt
+                  02 fileb.txt
+                  03 filec.txt
+- one arg: display content of file
+    ex: input ->  java topsecret 01
+        output -> (content of filea.txt)
+- two args: specifies an alternate key to use when deciphering (none = just use default key)
 
-Plan for connecting the command line to the file handler, requesting file contents and returning readable text.
-When the program is executed with no arguments, this part of the program should provide a list of files available, as provided from the work of Team Member B, along with a corresponding number.
 
-test: trying to see if i can push to github???????
+Plan:
+If
+
+
+Tests:
+- no args
+- one arg 02
+- one arg # out of bound - 5
+- one arg random string
+
+
