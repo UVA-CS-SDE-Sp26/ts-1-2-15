@@ -11,13 +11,19 @@ Program control: connecting the command line to the file handler (request file c
 
 
 Plan:
-If
 
 
 Tests:
 - no args
-- one arg 02
-- one arg # out of bound - 5
-- one arg random string
+    expected output: 01 filea.txt
+                     02 fileb.txt
+                     03 filec.txt
+- one arg: 02
+    expected output: (content of fileb.txt)
+- one arg # out of bound: 5
+    expected output: file not found
+- one arg random string: filez
+    expected output: file not found
+- 2 args
 
 
