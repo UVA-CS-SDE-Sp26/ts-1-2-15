@@ -5,8 +5,7 @@ import java.util.List;
 
 public class Userinterface {
 
-    private static final String DEFAULT_KEY_PATH = "ciphers/key.txt";
-
+    private static final String DEFAULT_KEY = "ciphers/key.txt";
     private final ProgramControl control;
 
     public Userinterface(ProgramControl control) {
@@ -14,88 +13,87 @@ public class Userinterface {
     }
 
     public void run(String[] args) {
-        if(args == null) {
-            printError("Arguments cannot be null");
+        if (args == null) {
+            reportError("Arguments cannot be null");
             return;
         }
 
-        if(args.length == 1 && isHelpFlag(args[0])) {
-            printUsage();
+        if (args.length == 1 && isHelpRequest(args[0])) {
+            showUsage();
             return;
         }
 
-        if(args.length == 0) {
-            handleListFiles();
+        if (args.length == 0) {
+            displayFileList();
             return;
         }
 
-        if(args.length == 1) {
-            handleDisplayFile(args[0], DEFAULT_KEY_PATH);
+        if (args.length == 1) {
+            displaySingleFile(args[0], DEFAULT_KEY);
             return;
         }
 
-        if(args.length == 2) {
-            handleDisplayFile(args[0], args[1]);
+        if (args.length == 2) {
+            displaySingleFile(args[0], args[1]);
             return;
         }
 
-        printError("Too many arguments");
+        reportError("Too many arguments");
     }
 
-    private static boolean isHelpFlag(String s) {
-        return s != null && (s.equals("-h") || s.equals("--help"));
-    }
-
-    private void handleListFiles() {
+    private void displayFileList() {
         List<String> files;
-        try{
+        try {
             files = control.getFileList();
-        }catch(Exception e) {
-            printError(e.getMessage());
+        } catch (Exception e) {
+            reportError(e.getMessage());
             return;
         }
 
-        if(files == null || files.isEmpty()) {
+        if (files == null || files.isEmpty()) {
             System.out.println("No files available.");
             return;
         }
 
-        for(int i = 0; i < files.size(); i++) {
+        for (int i = 0; i < files.size(); i++) {
             System.out.printf("%02d %s%n", i + 1, files.get(i));
         }
     }
 
-    private void handleDisplayFile(String fileNum, String keyPath) {
-        if(!isValidFileNumber(fileNum)) {
-            printError("Invalid file number. Must be two digits like 01.");
+    private void displaySingleFile(String fileCode, String keyPath) {
+        if (!isTwoDigitCode(fileCode)) {
+            reportError("Invalid file number. Must be two digits like 01.");
             return;
         }
 
-        if(isBlank(keyPath)) {
-            printError("Key path cannot be empty.");
+        if (isBlank(keyPath)) {
+            reportError("Key path cannot be empty.");
             return;
         }
 
-        int index = Integer.parseInt(fileNum);
+        int index = Integer.parseInt(fileCode);
 
         String encrypted;
-        try{
+        try {
             encrypted = control.getFileContent(index, keyPath);
-        }catch (Exception e) {
-            printError(e.getMessage());
+        } catch (Exception e) {
+            reportError(e.getMessage());
             return;
         }
 
-        if(!CipherDecrypter.loadKey(keyPath)) {
-            printError("Failed to load key file: " + keyPath);
+        if (!CipherDecrypter.loadKey(keyPath)) {
+            reportError("Failed to load key file: " + keyPath);
             return;
         }
 
-        String plain = CipherDecrypter.decipher(encrypted);
-        System.out.print(plain);
+        System.out.print(CipherDecrypter.decipher(encrypted));
     }
 
-    public static boolean isValidFileNumber(String s) {
+    private static boolean isHelpRequest(String arg) {
+        return arg != null && (arg.equals("-h") || arg.equals("--help"));
+    }
+
+    public static boolean isTwoDigitCode(String s) {
         return s != null && s.matches("\\d{2}");
     }
 
@@ -103,21 +101,18 @@ public class Userinterface {
         return s == null || s.trim().isEmpty();
     }
 
-    private static void printError(String message) {
+    private static void reportError(String message) {
         System.err.println("Error: " + message);
-        printUsage();
+        showUsage();
     }
 
-    private static void printUsage() {
+    private static void showUsage() {
         System.out.println("Usage:");
         System.out.println("  java topsecret");
         System.out.println("  java topsecret <NN>");
         System.out.println("  java topsecret <NN> <KEY_PATH>");
         System.out.println("  java topsecret --help");
         System.out.println("  java topsecret -h");
-        System.out.println("");
-        System.out.println("Notes:");
-        System.out.println("  <NN> must be a two-digit file number like 01, 02, 10.");
-        System.out.println("  <KEY_PATH> is optional; default is ciphers/key.txt.");
     }
 }
+
