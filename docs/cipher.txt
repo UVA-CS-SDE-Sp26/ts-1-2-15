@@ -100,20 +100,24 @@ TEST-02: validateKey_LengthMismatch
   - Input: plainLine="ABC", cipherLine="BC"
   - Expected: Returns False
 
+TEST-03: validateKey_nullLine
+- Input: plainLine="", cipherLine="BCD"
+- Expected: Returns False
 
-TEST-03: decipher_Standard
+
+TEST-04: decipher_Standard
   - Setup: Load key (Plain="ABC", Cipher="BCD")
   - Input: "BCD"
   - Expected: Returns "ABC"
 
 
-TEST-04: decipher_SpecialChars
+TEST-05: decipher_SpecialChars
   - Setup: Load key (Plain="ABC", Cipher="BCD")
   - Input: "B C D!"
   - Expected: Returns "A B C!" (Preserves spaces and symbols)
 
 
-TEST-05: loadKey_FileNotFound
+TEST-06: loadKey_FileNotFound
   - Input: "ghost_file.txt"
   - Expected: Returns False / Handles exception
 

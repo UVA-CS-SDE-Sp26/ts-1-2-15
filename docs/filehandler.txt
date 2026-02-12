@@ -15,7 +15,9 @@ return (file not found!)
 
 Also have it so that when no argument is given it lists all available files. 
 
+This will need to be two seperate methods that are then called by Team Member C. 
+
 Tests that could be run:
 1. Test a file name that doesn't exist.
-2. Test each file name that does exist.
+2. Test every file name that does exist. (feasible tests in this case as only two example files are given)
 3. Test no argument given. 
