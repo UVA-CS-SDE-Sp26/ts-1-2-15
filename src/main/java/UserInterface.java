@@ -11,9 +11,7 @@ import java.util.List;
  * -printing the file list
  * -printing a selected file's deciphered contents
  * -printing usage + errors for invalid input
- *
  */
-
 public class UserInterface {
 
     private static final String DEFAULT_KEY_PATH = "ciphers/key.txt";
@@ -29,22 +27,22 @@ public class UserInterface {
             return;
         }
 
-        if (args.length == 1 && isHelp(args[0])) {
+        if(args.length == 1 && isHelp(args[0])) {
             printUsage();
             return;
         }
 
-        if (args.length == 0) {
+        if(args.length == 0) {
             printNumberedFiles();
             return;
         }
 
-        if (args.length == 1) {
+        if(args.length == 1) {
             displayFile(args[0], DEFAULT_KEY_PATH);
             return;
         }
 
-        if (args.length == 2) {
+        if(args.length == 2) {
             displayFile(args[0], args[1]);
             return;
         }
@@ -62,18 +60,18 @@ public class UserInterface {
             return;
         }
 
-        if (files == null || files.isEmpty()) {
+        if(files == null || files.isEmpty()) {
             System.out.println("No files available.");
             return;
         }
 
-        for (int i = 0; i < files.size(); i++) {
+        for(int i = 0; i < files.size(); i++) {
             System.out.printf("%02d %s%n", i + 1, files.get(i));
         }
     }
 
     private void displayFile(String fileCode, String keyPath) {
-        if (!isTwoDigits(fileCode)) {
+        if(!isTwoDigits(fileCode)) {
             showError("Invalid file number. Must be two digits like 01.");
             return;
         }
