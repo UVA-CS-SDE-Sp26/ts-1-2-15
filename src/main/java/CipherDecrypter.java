@@ -28,12 +28,11 @@ public class CipherDecrypter {
         String plainLine;
         String cipherLine;
 
-        try (BufferedReader br
-                     = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 
             plainLine = br.readLine();
-
             cipherLine = br.readLine();
+
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
             return false;
@@ -58,8 +57,11 @@ public class CipherDecrypter {
     }
 
     public static String decipher(String encryptedString) {
+
         StringBuilder result = new StringBuilder();
+
         for (int i =0; i < encryptedString.length(); i++) {
+
             char cipher = encryptedString.charAt(i);
             char plain = keyMap.getOrDefault(cipher,cipher);
             result.append(plain);
