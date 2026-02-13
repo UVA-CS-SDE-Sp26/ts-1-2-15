@@ -27,12 +27,26 @@ public class FileHandler {
 
         return files;
 
-
-
-
-
     }
 
+    public static String readKeyFile(String filePath) {
+        File file = new File(filePath);
+
+        // Check if file exists
+        if (!file.exists() || !file.isFile()) {
+            return null;
+        }
+
+        try (Scanner scanner = new Scanner(file)) {
+            StringBuilder fileContent = new StringBuilder();
+            while (scanner.hasNextLine()) {
+                fileContent.append(scanner.nextLine()).append("\n");
+            }
+            return fileContent.toString();
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+    }
   public static String getFile(String fileName) throws FileNotFoundException {
 
         File file = new File("data/" + fileName);

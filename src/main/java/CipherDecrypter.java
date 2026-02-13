@@ -1,13 +1,8 @@
-import java.io.*;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
+
 import java.util.HashMap;
 
 public class CipherDecrypter {
     private static final HashMap<Character, Character> keyMap = new HashMap<>();
-
-    private static final String DEFAULT_PATH = "ciphers/key.txt";
 
     private static boolean validateKey(String plainLine, String cipherLine) {
 
@@ -19,33 +14,25 @@ public class CipherDecrypter {
         }
         return true;
     }
-    public static boolean loadKey(String filePath) {
-
-        if (filePath.isEmpty()) {
-            filePath = DEFAULT_PATH;
-        }
-
-        String plainLine;
-        String cipherLine;
-
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-
-            plainLine = br.readLine();
-            cipherLine = br.readLine();
-
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-            return false;
-        } catch (IOException e) {
-            System.out.println("Error reading file");
+    public static boolean loadKey(String keyContent) {
+        if (keyContent == null || keyContent.isEmpty()) {
             return false;
         }
+
+        String[] lines = keyContent.split("\n");
+
+        if (lines.length < 2) {
+            return false;
+        }
+
+        String plainLine = lines[0];
+        String cipherLine = lines[1];
 
         if (!validateKey(plainLine, cipherLine)) {
             return false;
         }
-        int cipherLength = plainLine.length();
 
+        int cipherLength = plainLine.length();
 
         for (int i = 0; i < cipherLength; i++) {
 
@@ -55,7 +42,6 @@ public class CipherDecrypter {
         }
         return true;
     }
-
     public static String decipher(String encryptedString) {
 
         StringBuilder result = new StringBuilder();
