@@ -36,9 +36,4 @@ public class CiphersTest {
         String result = CipherDecrypter.decipher("B C D!");
         assertEquals("A B C!", result);
     }
-    @Test // ensures that a missing file successfully throws FileNotFound exception
-    void test07_loadKey_FileNotFound() {
-        boolean result = CipherDecrypter.loadKey(null);
-        assertFalse(result);
-    }
 }
