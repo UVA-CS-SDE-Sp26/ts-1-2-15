@@ -5,7 +5,7 @@
 public class TopSecret{
     public static void main(String[] args){
         ProgramControl control = new ProgramControl();
-        Userinterface ui = new Userinterface(control);
+        UserInterface ui = new UserInterface(control);
         ui.run(args);
     }
 }
