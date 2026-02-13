@@ -25,7 +25,6 @@ public class UserInterfaceTests {
         fakeControl.filesToReturn = Arrays.asList("a.txt", "b.txt");
 
         ui.run(new String[]{});
-
         assertTrue(fakeControl.getFileListCalled);
     }
 
@@ -46,7 +45,6 @@ public class UserInterfaceTests {
         fakeControl.throwOnGetFileContent = true;
 
         assertDoesNotThrow(() -> ui.run(new String[]{"05", "mykey.txt"}));
-
         assertTrue(fakeControl.getFileContentCalled);
         assertEquals(5, fakeControl.lastFileNumber);
         assertEquals("mykey.txt", fakeControl.lastKeyPath);
@@ -63,7 +61,6 @@ public class UserInterfaceTests {
     @Test
     void testTooManyArgsDoesNotCallControl() {
         ui.run(new String[]{"01", "k.txt", "extra"});
-
         assertFalse(fakeControl.getFileListCalled);
         assertFalse(fakeControl.getFileContentCalled);
     }
@@ -71,7 +68,6 @@ public class UserInterfaceTests {
     @Test
     void testHelpDoesNotCallControl() {
         ui.run(new String[]{"--help"});
-
         assertFalse(fakeControl.getFileListCalled);
         assertFalse(fakeControl.getFileContentCalled);
     }
@@ -94,7 +90,6 @@ public class UserInterfaceTests {
         String lastKeyPath = null;
 
         boolean throwOnGetFileContent = false;
-
         List<String> filesToReturn = Arrays.asList();
 
         @Override
