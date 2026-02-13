@@ -1,4 +1,3 @@
-package org.example;
 
 import java.util.List;
 
@@ -89,8 +88,14 @@ public class UserInterface {
             showError(e.getMessage());
             return;
         }
+        String keyContent = FileHandler.readKeyFile(keyPath);
 
-        boolean ok = CipherDecrypter.loadKey(keyPath);
+        if (keyContent == null) {
+            showError("Could not load key file: " + keyPath);
+            return;
+        }
+
+        boolean ok = CipherDecrypter.loadKey(keyContent);
         if (!ok) {
             showError("Could not load key file: " + keyPath);
             return;
