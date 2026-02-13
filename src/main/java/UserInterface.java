@@ -3,7 +3,7 @@ import java.util.List;
 //Team Member A 
 //Responsible for Command Line Interface argument validation
 
-public class Userinterface {
+public class UserInterface {
 
     private static final String DEFAULT_KEY = "ciphers/key.txt";
     private final ProgramControl control;

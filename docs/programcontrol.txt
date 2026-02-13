@@ -9,21 +9,50 @@ Program control: connecting the command line to the file handler (request file c
         output -> (content of filea.txt)
 - two args: specifies an alternate key to use when deciphering (none = just use default key)
 
+flow of the program:
+TopSecret.main()
+- create ProgramControl
+- create UserInterface with ProgramControl
+- UserInterface.run(args)
+    - calls ProgramControl.getFileList() or
+    - calls ProgramControl.getFileContent(fileNumber, keyPath)
+        - calls FileHandler.listFiles() or FileHandler.getFile()
+        - returns results to UserInterface
+- UserInterface handles CipherDecrypter
+- UserInterface displays results to user
 
-Plan:
+
+UML:
+ProgramControl
+--------------
+--------------
++ getFileList(): List<String>
++ getFileContent(int, String): String
+
 
 
 Tests:
-- no args
-    expected output: 01 filea.txt
-                     02 fileb.txt
-                     03 filec.txt
-- one arg: 02
-    expected output: (content of fileb.txt)
-- one arg # out of bound: 5
-    expected output: file not found
-- one arg random string: filez
-    expected output: file not found
-- 2 args
+- getFileList() tests:
+    - Mock FileHandler.listFiles() returns ["filea.txt", "fileb.txt", "filec.txt"] -> expected same
+    - Mock returns empty ArrayList -> getFileList() returns empty list
+    - Mock returns null -> Throws Exception "Unable to access file list"
+- getFileContent() regular tests:
+    - Mock 2 files, request file 1 -> Returns content of first file
+    - Mock 3 files, request file 2 -> Returns content of second file
+    - Mock 3 files -> Can successfully access files 1, 2, and 3
+    - Mock 1 file, request file 1 -> Returns content successfully
+- getFileContent() not regular tests:
+    - Mock 2 files, request file 5 -> Throws Exception "File number 05 not found"
+    - Mock 1 file, request file 0 -> Throws Exception "File number 00 not found"
+    - Mock 1 file, request file -1 -> Throws Exception containing "not found"
+    - Mock 1 file, request file 99 -> Throws Exception containing "not found"
+    - Mock returns empty file list, request file 1 -> Throws Exception "No files available in data directory"
+    - Mock getFile() returns "File not found!" -> Throws Exception "File not found: filename"
+    - Mock getFile() throws FileNotFoundException -> Throws Exception "File not found: filename"
+- some other tests:
+    - Mock file with multiple lines -> Returns all lines with newlines preserved
+    - Request same file with different keyPath values -> Both succeed
+    - Call getFileList(), then getFileContent() -> Both calls succeed with correct data
+
 
 
